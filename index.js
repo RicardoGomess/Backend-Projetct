@@ -1,54 +1,22 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-
-import loginUsersRoutes from './routes/loginUsers.js';
+import foodRoutes from './routes/food.route.js';
+import Mongoose from 'mongoose';
+import logger from 'morgan'; 
 
 const app = express(); 
-/* const connection = require("./database/database");
-const comidas = require("./database/comidas"); */
 
-// Instrução para o Express usar o EJS como View engine
-app.set('view engine','ejs');
-app.use(bodyParser.json()); 
-/* app.use(express.static('public')); */
-app.use('/loginUsers', loginUsersRoutes)
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(logger('dev'));
 
+app.use('/foods', foodRoutes)
 
-//Routes
-app.get("/",function(req,res){
-    res.render("index");
+Mongoose.connect('mongodb://localhost:27021/fitness-db', (err, client) => {
+    if(err){
+      throw new Error('Could not connect to the database');
+    }
+    console.log('Successfully connected to the database');
 });
-
-app.get("/diario",function(req,res){
-    res.render("diario");
-});
-
-app.get("/addcomida",function(req,res){
-    res.render("addcomida");
-});
-
-app.post("/login",function(req,res){
-    res.render("login");
-});
-
-
-/* app.post("/addcomida",(req, res) => {
-    var nome = req.body.nome;
-    var proteina = req.body.proteina;
-    var hidratosdeCarbono = req.body.hidratosdeCarbono;
-    var calorias = req.body.calorias;
-
-
-    comidas.create({
-        nomes:nome,
-        proteina:proteina,
-        hidratosdeCarbono:hidratosdeCarbono,
-        calorias:calorias,
-    }).then(() => {
-        res.redirect("/");
-    });
-
-}); */
 
 app.listen(4000,function(erro){
     if(erro){
@@ -56,4 +24,4 @@ app.listen(4000,function(erro){
     }else{
         console.log("Servidor iniciado com sucesso!");
     }
-}) 
+});

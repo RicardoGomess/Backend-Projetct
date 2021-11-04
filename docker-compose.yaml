@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+
+  mongo-fitness-db:
+    image: mongo
+    container_name: mongo-fitness-db
+    restart: unless-stopped
+    ports:
+      - 27021:27017
+    volumes:
+      - ../_data/mongo-fitness-db:/data/db
