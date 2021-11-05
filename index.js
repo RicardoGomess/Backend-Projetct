@@ -1,5 +1,6 @@
 import express from 'express';
 import foodRoutes from './routes/food.route.js';
+import userRoutes from './routes/user.route.js';
 import Mongoose from 'mongoose';
 import logger from 'morgan'; 
 
@@ -9,7 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(logger('dev'));
 
-app.use('/foods', foodRoutes)
+app.use('/foods', foodRoutes);
+app.use('/users', userRoutes);
 
 Mongoose.connect('mongodb://localhost:27021/fitness-db', (err, client) => {
     if(err){

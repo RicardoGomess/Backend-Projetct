@@ -1,12 +1,13 @@
 import Mongoose from "mongoose";
 
-const Food = Mongoose.model('Food', {
+const foodSchema = Mongoose.Schema ({
     name: String,
     protein: Number,
-    carbonHydrates: Number,
+    carboHydrates: Number,
     fat: Number,
     calories: Number,
     uuid: Number,
 })
 
-export default Food;
+/* export default Food; */
+export default Mongoose.model('foodSchema', foodSchema) ;

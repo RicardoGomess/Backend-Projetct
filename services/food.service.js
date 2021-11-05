@@ -1,27 +1,27 @@
-import FoodModel from '../models/food.model.js'
+import foodSchema from '../models/food.model.js'
 
 const FoodService = {
     getAllFoods: async () => {
-        const foods = await FoodModel.find().all();
+        const foods = await foodSchema.find().all();
         return foods;
     },
     createFood: async (food) => {
-        const foodObject = new FoodModel(food);
+        const foodObject = new foodSchema(food);
         const result = await foodObject.save();
-        if(result) return 'sucesso';
+        if(result) return 'success';
     },
     getFoodById: async (uuid) => {
-        const result = await FoodModel.findOne({uuid: uuid});
+        const result = await foodSchema.findOne({uuid: uuid});
         return result;
     },
     updateFood: async (requestBody, id) => {
-        const objectUpdated = await FoodModel.findOneAndUpdate({uuid: id}, {...requestBody}) 
+        const objectUpdated = await foodSchema.findOneAndUpdate({uuid: id}, {...requestBody}) 
         return {
             ...requestBody
         }
     },
     deleteFood: async (id) => {
-        const result = await FoodModel.findOneAndDelete({uuid: id});
+        const result = await foodSchema.findOneAndDelete({uuid: id});
         return result;
     }
 }
