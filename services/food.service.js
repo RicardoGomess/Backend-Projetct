@@ -7,22 +7,33 @@ const FoodService = {
     },
     createFood: async (food) => {
         const foodObject = new foodSchema(food);
-        const result = await foodObject.save();
-        if(result) return 'success';
+        const addFood = await foodObject.save();
+        if (addFood) return 'food added';
     },
     getFoodById: async (uuid) => {
-        const result = await foodSchema.findOne({uuid: uuid});
-        return result;
+        const result = await foodSchema.findOne({ _id: uuid });
+
+        const calc = result.protein + result.fat + result.carboHydrates
+
+        return {
+            ...result._doc,
+            calc
+        };
     },
-    updateFood: async (requestBody, id) => {
-        const objectUpdated = await foodSchema.findOneAndUpdate({uuid: id}, {...requestBody}) 
+    updateFood: async (requestBody, uuid) => {
+        const objectUpdated = await foodSchema.findOneAndUpdate({ _id: uuid }, { ...requestBody })
         return {
             ...requestBody
         }
     },
-    deleteFood: async (id) => {
-        const result = await foodSchema.findOneAndDelete({uuid: id});
-        return result;
+    deleteFood: async (uuid) => {
+        try {
+            const deleteFood = await foodSchema.findOneAndDelete({ _id: uuid });
+            if (deleteFood) return 'food deleted';
+        } catch (error) {
+            throw error;
+        }
+
     }
 }
 
