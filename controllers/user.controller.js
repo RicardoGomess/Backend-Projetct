@@ -1,6 +1,5 @@
 import UserService from '../services/user.service.js'
-/* const UserService = require('../services/user.service.js');
- */
+
 
 const UserController = {
     getAll: async (req, res) => {
